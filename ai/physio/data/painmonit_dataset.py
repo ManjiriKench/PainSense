@@ -5,23 +5,23 @@ import torch
 from torch.utils.data import Dataset
 
 # -----------------------------
-# CONFIG (LOCKED DECISIONS)
+# CONFIG
 # -----------------------------
 PHYSIO_COLUMNS = ["Bvp", "Eda_E4", "Tmp", "Hr", "Resp"]
 LABEL_COLUMN = "COVAS"
 
-SAMPLING_RATE = 250        # Hz (inferred)
-WINDOW_SECONDS = 5         # seconds
-STRIDE_SECONDS = 1         # seconds
+SAMPLING_RATE = 250
+WINDOW_SECONDS = 5
+STRIDE_SECONDS = 1
 
-WINDOW_SIZE = WINDOW_SECONDS * SAMPLING_RATE   # 1250
-STRIDE_SIZE = STRIDE_SECONDS * SAMPLING_RATE   # 250
+WINDOW_SIZE = WINDOW_SECONDS * SAMPLING_RATE
+STRIDE_SIZE = STRIDE_SECONDS * SAMPLING_RATE
 
 
 class PainMonitDataset(Dataset):
     """
-    Dataset for PainMonit PMED physiological signals.
-    Produces (window, label) pairs for CNN + GRU.
+    Robust dataset loader for PainMonit PMED physiological signals.
+    Produces (window, label) pairs with NO NaNs.
     """
 
     def __init__(self, data_dir):
@@ -39,23 +39,62 @@ class PainMonitDataset(Dataset):
         print(f"[INFO] Total windows created: {len(self.samples)}")
 
     def _process_subject(self, file_path):
-        df = pd.read_csv(file_path, sep=";", decimal=",")
+        df = pd.read_csv(
+            file_path,
+            sep=";",
+            decimal=",",
+            engine="python",
+            on_bad_lines="skip"
+        )
 
-        # Select signals and label
+        # Force numeric conversion
+        for col in PHYSIO_COLUMNS + [LABEL_COLUMN]:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+
+        # Drop rows with no physio data
+        df = df.dropna(subset=PHYSIO_COLUMNS, how="all")
+
         signals = df[PHYSIO_COLUMNS].values.astype(np.float32)
         labels = df[LABEL_COLUMN].values.astype(np.float32)
 
-        # Per-subject normalization (Z-score)
-        mean = signals.mean(axis=0)
-        std = signals.std(axis=0) + 1e-8
-        signals = (signals - mean) / std
+        # -----------------------------
+        # Robust normalization
+        # -----------------------------
+        for i in range(signals.shape[1]):
+            col = signals[:, i]
+            valid = np.isfinite(col)
 
-        # Sliding window
+            if valid.sum() < 10:
+                continue
+
+            mean = col[valid].mean()
+            std = col[valid].std()
+
+            if std < 1e-6:
+                std = 1.0
+
+            signals[:, i] = (col - mean) / std
+
+        # -----------------------------
+        # Sliding windows
+        # -----------------------------
         for start in range(0, len(signals) - WINDOW_SIZE, STRIDE_SIZE):
             end = start + WINDOW_SIZE
 
             window = signals[start:end]
-            label = labels[start:end].mean()  # average pain in window
+            window_labels = labels[start:end]
+
+            # Skip windows with bad inputs
+            if not np.isfinite(window).all():
+                continue
+
+            # Require at least 20% valid labels
+            valid_labels = np.isfinite(window_labels)
+            if valid_labels.sum() < 0.2 * len(window_labels):
+                continue
+
+            label = np.nanmean(window_labels)
+            label = np.clip(label, 0.0, 100.0)
 
             self.samples.append((window, label))
 
@@ -65,7 +104,7 @@ class PainMonitDataset(Dataset):
     def __getitem__(self, idx):
         window, label = self.samples[idx]
 
-        window = torch.tensor(window)          # (T, C)
-        label = torch.tensor(label)
+        window = torch.tensor(window, dtype=torch.float32)
+        label = torch.tensor(label, dtype=torch.float32)
 
         return window, label
