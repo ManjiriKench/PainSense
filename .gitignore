@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+jspm_packages/
+typings/
+
+# Build outputs
+dist/
+build/
+bin/
+obj/
+out/
+.next/
+.cache/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+logs/
+
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Python (if any)
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env/
+
+# Miscellaneous
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
