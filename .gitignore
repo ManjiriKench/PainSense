@@ -54,3 +54,4 @@ Thumbs.db
 ai/physio/data/PMHDB/
 ai/physio/data/PMED/
 ai/physio/data/PMCD/
+*.pth
