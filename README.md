@@ -66,3 +66,6 @@ PainSense aims to standardize pain care globally. By providing an objective meas
 ### **Team Information**
 *Built with passion and technical excellence by the PainSense Team.*
 **Theme:** *Improving Health Access for All*
+
+# PainSense
+PainSense is an AI-driven healthcare platform that enables real-time, objective pain assessment for non-verbal and sedated patients using camera-based facial analysis. Built with an edge-first design and explainable AI, it supports clinicians with continuous pain scoring while preserving privacy and improving healthcare equity.
