@@ -1,71 +1,111 @@
-# PainSense: AI-Powered Real-Time Pain Assessment System
+PainSense
+AI-Powered Real-Time Pain Assessment System
 
-> **Bridging the Clinical Gap in Non-Verbal Patient Care**
-> *Developed for the VIT Bhopal x Johns Hopkins University Health Hackathon 2026*
+Bridging the Clinical Gap in Non-Verbal Patient Care
+Developed for the VIT Bhopal × Johns Hopkins University Health Hackathon 2026
 
----
+📋 Executive Summary:
+PainSense is an AI-driven digital health platform designed to provide real-time, objective pain assessment for patients who are unable to communicate verbally. By combining computer vision, clinically validated pain scales, and continuous monitoring, PainSense enables clinicians to make faster, data-driven decisions and improve patient outcomes. The system is built with a modular, privacy-first architecture to support clinical environments such as ICUs, neonatal wards, and post-operative care units.
 
-## 📋 Executive Summary
+🏥 The Clinical Challenge:
+Pain is widely regarded as the “5th Vital Sign”, yet current assessment methods depend heavily on patient self-reporting (e.g., 0–10 Numeric Rating Scale). This approach fails for:
+ICU & Sedated Patients – unable to communicate due to medical intervention
+Neonatal & Pediatric Patients – limited or absent verbal expression
+Cognitively Impaired Patients – dementia, neurological disorders, or altered consciousness
+Inadequate pain management can result in physiological stress, delayed healing, and long-term complications.
 
-**PainSense** is an advanced, non-invasive digital health solution designed to automate pain assessment for non-communicative patients. By leveraging computer vision and established clinical pain scales, PainSense provides continuous, objective monitoring of patient discomfort, enabling timely medical intervention and improving overall clinical outcomes.
+💡 The PainSense Solution:
+PainSense transforms pain assessment into a continuous physiological signal rather than a sporadic manual observation.
 
-## 🏥 The Clinical Challenge
+Core Capabilities- 
+Automated Facial Expression Analysis- Detects pain-associated micro-expressions and Facial Action Units (AUs) such as brow furrowing and eye squeezing.
+Clinical Scale Mapping- Expression data is mapped to validated tools, including:
+CPOT (Critical-Care Pain Observation Tool)
+Primal Face Pain Scale
+Contextual Correlation
+Designed to correlate pain trends with vital signs (HR, SpO₂, BP) for a holistic patient view.
 
-Accurate pain assessment is traditionally regarded as the "5th Vital Sign." However, current clinical practice relies almost exclusively on **patient self-reporting** (e.g., the 0-10 Numeric Rating Scale). This creates a critical care gap for:
 
-- **ICU & Sedated Patients:** Unable to communicate due to medical intervention or critical illness.
-- **Neonatal & Pediatric Patients:** Lacking the verbal capacity to describe intensity or location.
-- **Cognitively Impaired Patients:** Individuals with dementia or neurological conditions who cannot provide reliable self-reports.
+🛠️ System Architecture:
+PainSense follows a scalable, modular architecture suitable for collaborative development and future clinical deployment.
+1️⃣ AI & Computer Vision (Core Engine)
+Real-time facial landmark detection (68+ landmarks)
+Action Unit (AU) estimation
+Edge-first inference for low latency and patient privacy
 
-Failure to manage pain effectively leads to physiological stress, delayed healing, and the development of chronic pain conditions.
+2️⃣ Clinical Frontend (Dashboard)
+Built using React + Vite
+Designed for nurse stations and bedside monitors
+Real-time pain visualization and historical trends
+Alert-ready UI for sudden pain spikes
 
-## 💡 The PainSense Solution
+3️⃣ Backend Services (Planned)
+Secure data orchestration between AI and frontend
+Session-based patient monitoring
+Future-ready for HL7 / FHIR EHR integration
 
-PainSense transforms pain assessment into a continuous physiological data stream. Our system integrates seamlessly into hospital environments to provide:
+📁 Repository Structure
+PainSense/
+│
+├── frontend/        # React + Vite frontend application
+├── backend/         # Backend services (API, auth, database) – in progress
+├── ai/              # AI/ML models and inference logic – in progress
+├── shared/          # Shared types and utilities
+│   └── types.ts
+│
+├── README.md
+└── .gitignore
 
-- **Automated Facial Analysis:** Using computer vision to detect micro-expressions and "Action Units" (AUs) associated with pain (brow furrowing, eye squeezing, etc.).
-- **Clinical Correlation:** Mapping detected expressions to recognized scales such as the **Critical-Care Pain Observation Tool (CPOT)** and the **Primal Face Pain Scale**.
-- **Integrated Vital Signs:** Correlating pain trends with physiological metrics (Heart Rate, SpO2, Blood Pressure) for a holistic view of patient status.
+⚙️ Running the Project (Frontend)
+   🔹 Prerequisites
+       Node.js (v18+ recommended)
+       npm
+       Git
 
-## 🛠️ Technical Architecture
+  🔹 Setup Instructions:
+      git clone https://github.com/ManjiriKench/PainSense.git
+      cd PainSense/frontend
+      npm install
+      npm run dev
 
-The system is built on a modular architecture designed for scalability and clinical integration:
+Development Workflow & Branching Strategy:
+This project follows a professional Git workflow.
+Main Branches
+main → Stable, demo-ready code
+dev → Active integration branch
 
-### 1. Computer Vision & AI (Core)
-- **Facial Landmark Detection:** Real-time tracking of 68+ facial landmarks.
-- **AU Estimation:** Specialized models to quantify specific muscle movements.
-- **Inference Engine:** Optimized for local deployment to ensure patient privacy and low-latency processing.
+Feature Branches
+frontend-feature-name
+backend-feature-name
+ai-feature-name
 
-### 2. Clinical Frontend (The Dashboard)
-- **Built with React + Vite:** A high-fidelity interface designed for nurse workstations and bedside monitors.
-- **Real-Time Visualizations:** Dynamic charting using `Recharts` to show pain intensity over time.
-- **Alerting System:** Hierarchical alert priorities to notify staff of sudden pain spikes.
+Contribution Rules
+All work must be done in feature branches
+Pull Requests are merged into the dev
+Only the team lead merges dev → main
 
-### 3. Integrated Backend
-- **Data Orchestration:** Managing the flow of telemetry from AI models to front-end dashboards.
-- **EHR Integration Layer:** Designed for compatibility with HL7/FHIR standards for future hospital deployment.
+👥 Team Responsibilities:
+Team Lead & Frontend: Manjiri Kench, Adityaraj Bagwan
+Backend Development: Harsh Nagre, Priyanka Bankar
+AI / ML Development: Anish Pathak, Khushi Thakkar
 
-## 🚀 Key Features
+🚀 Key Features:
+Touchless & non-invasive pain monitoring
+Continuous pain history tracking
+Privacy-first design (edge processing & visualization safeguards)
+Designed for ICU, neonatal, and post-operative care
+Scalable for multi-patient monitoring
 
-- **Touchless & Non-Invasive:** Operates using standard hospital cameras without requiring physical contact.
-- **Continuous History:** Provides 24/7 monitoring, capturing pain events that occur between manual nurse rounds.
-- **Privacy-First Design:** Implements face-blurring visualization and localized data processing options.
-- **Clinical Dossier:** Quick access to active medications, shift history, and daily schedules for context-aware care.
+📈 Impact & Future Roadmap:
+PainSense aims to standardize objective pain assessment, especially for vulnerable populations.
+Planned Enhancements
+Multimodal fusion (facial + vocal + motion cues)
+Predictive pain analytics
+Centralized ICU / ward monitoring dashboard
+Cloud & on-prem deployment options
 
-## 📈 Impact & Future Vision
+🤝 Contributing- Contributions are welcome via feature branches and pull requests.
+Please follow the project’s branching strategy and commit conventions.
 
-PainSense aims to standardize pain care globally. By providing an objective measurement of "the invisible symptom," we empower clinicians to make data-driven decisions in pain management, particularly for those who cannot speak for themselves.
-
-### **Future Roadmap:**
-- **Multimodal Fusion:** Integrating vocalization analysis and body movement tracking.
-- **Predictive Analytics:** Forecasting pain spikes before they become acute.
-- **Multi-Patient Command Center:** A centralized view for ICU nurse stations to monitor entire wards simultaneously.
-
----
-
-### **Team Information**
-*Built with passion and technical excellence by the PainSense Team.*
-**Theme:** *Improving Health Access for All*
-
-# PainSense
-PainSense is an AI-driven healthcare platform that enables real-time, objective pain assessment for non-verbal and sedated patients using camera-based facial analysis. Built with an edge-first design and explainable AI, it supports clinicians with continuous pain scoring while preserving privacy and improving healthcare equity.
+Contributions are welcome via feature branches and pull requests.
+Please follow the project’s branching strategy and commit conventions.
