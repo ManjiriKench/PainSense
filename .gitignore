@@ -55,3 +55,8 @@ ai/physio/data/PMHDB/
 ai/physio/data/PMED/
 ai/physio/data/PMCD/
 *.pth
+# PainSense datasets (large, local-only)
+ai/cnn/data/processed/
+ai/physio/data/PMHDB/
+ai/physio/data/**/*.csv
+*.pth
