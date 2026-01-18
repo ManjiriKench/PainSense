@@ -1,0 +1,365 @@
+/* =========================
+   ROOT & VARIABLES
+========================= */
+:root {
+    --bg-app: #f8fafc;
+    /* Very light cool gray (not blue) */
+    --bg-panel: #ffffff;
+    /* Pure white */
+    --text-primary: #0f172a;
+    /* Dark slate */
+    --text-secondary: #64748b;
+    /* Muted gray */
+
+    /* Semantic Colors */
+    --risk-high: #ef4444;
+    --risk-mild: #f59e0b;
+    --risk-none: #10b981;
+
+    /* Premium Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+    --shadow-selected: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+    /* Transitions */
+    --trans-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    margin: 0;
+}
+
+.doctor-dashboard {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+.doctor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.doctor-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.doctor-meta {
+    text-align: right;
+}
+
+.doctor-name {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.doctor-info {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* =========================
+   METRICS ROW
+========================= */
+.ward-overview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.ward-card {
+    background: var(--bg-panel);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid #f1f5f9;
+
+    /* Animation */
+    transition: var(--trans-fast);
+}
+
+.ward-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.metric-value {
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.03em;
+}
+
+.metric-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* =========================
+   MAIN GRID
+========================= */
+.doctor-grid {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.panel {
+    background: var(--bg-panel);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid #f1f5f9;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.panel h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* =========================
+   PATIENT LIST (Animated)
+========================= */
+.patient-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.patient-card {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr auto;
+    align-items: center;
+    padding: 1.25rem;
+    border-radius: 12px;
+    background: #f8fafc;
+    /* Default: light gray */
+    border: 1px solid transparent;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    /* Animation */
+    transition: var(--trans-fast);
+}
+
+/* Hover State */
+.patient-card:hover {
+    background: #ffffff;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+/* Selected State (Replaces Black Border with Elevation) */
+.patient-card.selected {
+    background: #ffffff;
+    box-shadow: var(--shadow-selected);
+    /* Float effect */
+    transform: scale(1.02);
+    /* Slight zoom */
+    z-index: 10;
+    border-color: transparent;
+}
+
+/* Accent Strip for Status */
+.patient-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #cbd5e1;
+    /* Default */
+}
+
+.patient-card.high::before {
+    background: var(--risk-high);
+}
+
+.patient-card.mild::before {
+    background: var(--risk-mild);
+}
+
+.patient-card.none::before {
+    background: var(--risk-none);
+}
+
+/* Card Content Typography */
+.p-info h5 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.p-info span {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 99px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.badge.high {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.badge.mild {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.badge.none {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.p-actions {
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0.6;
+    transition: var(--trans-fast);
+}
+
+.patient-card:hover .p-actions,
+.patient-card.selected .p-actions {
+    opacity: 1;
+    /* Fade in actions on interaction */
+}
+
+.btn-xs {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--trans-fast);
+}
+
+.btn-dark {
+    background: var(--text-primary);
+    color: white;
+}
+
+.btn-dark:hover {
+    background: #334155;
+}
+
+.btn-light {
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: var(--text-secondary);
+}
+
+.btn-light:hover {
+    background: #f1f5f9;
+    color: var(--text-primary);
+}
+
+/* =========================
+   ALERTS
+========================= */
+.alert-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background: #fff5f5;
+    border-left: 3px solid var(--risk-high);
+    border-radius: 6px;
+    color: #991b1b;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* =========================
+   SNAPSHOT (Footer)
+========================= */
+.snapshot {
+    background: var(--bg-panel);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    margin-top: 2rem;
+    border: 1px solid #f1f5f9;
+}
+
+.snap-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.snap-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.stat-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stat-box label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stat-box .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

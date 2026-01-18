@@ -1,0 +1,237 @@
+/* =========================
+   ROOT
+========================= */
+
+.staff-profile.premium {
+    padding: 2.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* =========================
+   HERO HEADER
+========================= */
+
+.staff-hero {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.4rem;
+}
+
+.staff-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #0ea5e9, #22c55e);
+    display: grid;
+    place-items: center;
+    color: white;
+}
+
+.staff-hero-main h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.staff-hero-main .role {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.hero-badges {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.badge {
+    font-size: 0.65rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.soft-blue {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.soft-green {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.soft-gray {
+    background: #e5e7eb;
+    color: #334155;
+}
+
+/* =========================
+   GRID LAYOUT
+========================= */
+
+.staff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.staff-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+}
+
+/* =========================
+   INFO BOXES
+========================= */
+
+.staff-box {
+    background: white;
+    border-radius: 18px;
+    padding: 1.6rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.staff-box h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 1.2rem;
+}
+
+.staff-box.highlight {
+    background: #f8fafc;
+    border-left: 4px solid #0ea5e9;
+}
+
+/* =========================
+   INFO LIST (LABEL / VALUE)
+========================= */
+
+.info-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+}
+
+.info-list div label {
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #64748b;
+    margin-bottom: 0.15rem;
+}
+
+.info-list div span {
+    font-size: 0.88rem;
+    color: #0f172a;
+    font-weight: 500;
+}
+
+/* =========================
+   PERMISSIONS
+========================= */
+
+.permission-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.permission-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #0f172a;
+}
+
+/* =========================
+   TASK LIST
+========================= */
+
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-list li {
+    font-size: 0.85rem;
+    padding-left: 1.2rem;
+    position: relative;
+    margin-bottom: 0.55rem;
+    color: #0f172a;
+}
+
+.task-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #94a3b8;
+    font-size: 1.2rem;
+}
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.staff-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.75rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 12px;
+    background: #0f172a;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+    background: #020617;
+}
+
+.action-btn.secondary {
+    background: #e5e7eb;
+    color: #0f172a;
+}
+
+.action-btn.secondary:hover {
+    background: #cbd5e1;
+}
+
+.action-btn.warn {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.action-btn.warn:hover {
+    background: #fecaca;
+}

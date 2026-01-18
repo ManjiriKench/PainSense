@@ -1,5 +1,5 @@
 /* 1. TOP HEADER */
-.landing-nav {
+/* .landing-nav {
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -55,15 +55,15 @@
 .nav-link.active {
     color: white;
     border-bottom: 2px solid rgba(255, 255, 255, 0.4);
-}
+} */
 
 
 /* 2. HERO SECTION */
 .hero-section {
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
-    padding: 6rem 5%;
-    gap: 4rem;
+    padding: 5rem 5%;
+    gap: 0rem;
     align-items: center;
     background-color: var(--color-background);
     min-height: 80vh;
@@ -139,7 +139,7 @@
     padding: 2.5rem;
     border-radius: 16px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    width: 100%;
+    width: 1050%;
     max-width: 450px;
     border: 1px solid var(--color-border);
 }
@@ -493,7 +493,7 @@
 }
 
 /* 9. FOOTER */
-.main-footer {
+/* .main-footer {
     background: var(--color-primary);
     color: white;
     padding: 3rem 5%;
@@ -509,4 +509,4 @@
 .footer-credits {
     color: #9ca3af;
     font-size: 0.9rem;
-}
+} */

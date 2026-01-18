@@ -1,0 +1,151 @@
+/* ===== Staff Control Profile ===== */
+
+.staff-profile.premium {
+    padding: 2.75rem;
+}
+
+/* HERO */
+.staff-hero {
+    display: flex;
+    gap: 1.75rem;
+    align-items: center;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.staff-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #e2e8f0, #f8fafc);
+    display: grid;
+    place-items: center;
+    color: #475569;
+    box-shadow: inset 0 0 0 1px #e5e7eb;
+}
+
+.staff-hero-main h3 {
+    margin: 0;
+    font-size: 1.45rem;
+}
+
+.role {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.hero-badges {
+    margin-top: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* GRID */
+.staff-grid {
+    margin-top: 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.staff-column {
+    display: grid;
+    gap: 1.75rem;
+}
+
+/* BOXES */
+.staff-box {
+    background: #f8fafc;
+    padding: 1.75rem;
+    border-radius: 18px;
+}
+
+.staff-box.highlight {
+    background: linear-gradient(180deg, #f8fafc, #eef2f7);
+}
+
+.staff-box h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+    color: #334155;
+}
+
+/* INFO */
+.info-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.info-list label {
+    font-size: 0.7rem;
+    color: #64748b;
+    display: block;
+}
+
+.info-list span {
+    font-size: 0.9rem;
+    color: #0f172a;
+}
+
+/* PERMISSIONS */
+.permission-list {
+    display: grid;
+    gap: 0.6rem;
+}
+
+.permission-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: white;
+    padding: 0.6rem 0.9rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+}
+
+/* TASKS */
+.task-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: 0.9rem;
+    color: #0f172a;
+}
+
+.task-list li {
+    margin-bottom: 0.4rem;
+}
+
+/* ACTIONS */
+.staff-actions {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1rem;
+    border-radius: 12px;
+    border: none;
+    background: #0f172a;
+    color: white;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.action-btn.secondary {
+    background: #e5e7eb;
+    color: #0f172a;
+}
+
+.action-btn.warn {
+    background: #fee2e2;
+    color: #991b1b;
+}

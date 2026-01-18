@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import {
     Activity, Pill, Calendar, Clock, FileText, ShieldCheck,
     AlertCircle, User, LogOut, Menu, X, Play, StopCircle,
-    CheckCircle, ChevronRight, Info, Heart, Zap
+    CheckCircle, ChevronRight, Info, Heart, Zap,
+    // Added new icons for the premium Consent View
+    Shield, Phone, Download, CheckCircle2, Users, AlertTriangle
 } from 'lucide-react';
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
@@ -101,58 +103,252 @@ const HistoryView = () => (
     </div>
 );
 
+// --- UPDATED PREMIUM CONSENT VIEW ---
 const ConsentView = () => (
-    <div className="portal-card">
-        <h3>Consent & Emergency Info</h3>
-        <div className="section-block">
-            <h4>Data Privacy Consent</h4>
-            <div className="consent-row">
-                <CheckCircle size={20} color="var(--color-success)" />
-                <span>I consent to local video processing for pain assessment.</span>
+    <div className="portal-card consent-card premium">
+
+        {/* HEADER */}
+        <div className="consent-header">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Shield className="w-5 h-5" size={20} color="#166534" />
+                <h3>Consent & Information</h3>
             </div>
-            <div className="consent-row">
-                <CheckCircle size={20} color="var(--color-success)" />
-                <span>I understand no raw video is stored on external servers.</span>
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <button className="btn-disabled" style={{ marginTop: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Download size={14} /> PDF
+                </button>
+                <span className="consent-status success">Consent Granted</span>
             </div>
         </div>
-        <div className="section-block">
-            <h4>Emergency Contact</h4>
-            <div className="contact-card">
-                <strong>Alice Howard (Daughter)</strong>
-                <p>+1 (555) 012-3456</p>
-                <p>Relationship: Primary Caregiver</p>
+
+        {/* CONSENT STATUS */}
+        <div className="consent-section">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
+                <Activity size={16} color="#64748b" />
+                <h4 style={{ marginBottom: 0 }}>Consent Status</h4>
+            </div>
+
+            <div className="details-grid">
+                <div>
+                    <label>Consent Type</label>
+                    <span>Non-invasive pain monitoring</span>
+                </div>
+                <div>
+                    <label>Consent Date</label>
+                    <span>02 Feb 2026</span>
+                </div>
+                <div>
+                    <label>Monitoring Scope</label>
+                    <span>During active clinical sessions only</span>
+                </div>
+                <div>
+                    <label>Authorized By</label>
+                    <span>Robert Fox (Self)</span>
+                </div>
+            </div>
+
+            <p className="helper-text">
+                You have provided consent for facial-expression–based pain monitoring as part of your clinical care.
+            </p>
+        </div>
+
+        {/* DATA USAGE & PRIVACY */}
+        <div className="consent-section">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
+                <Shield size={16} color="#64748b" />
+                <h4 style={{ marginBottom: 0 }}>Data Usage & Privacy</h4>
+            </div>
+
+            <ul className="info-list">
+                <li>Camera input is used only during active monitoring</li>
+                <li>No continuous recording when monitoring is stopped</li>
+                <li>Data is processed locally on the device (Edge Computing)</li>
+                <li>No data is shared without explicit authorization</li>
+                <li>No personal data is used for diagnosis without doctor review</li>
+            </ul>
+
+            <p className="helper-text subtle">
+                This system follows a privacy-first, edge-based design compliant with hospital policy.
+            </p>
+        </div>
+
+        {/* EMERGENCY CONTACT INFORMATION */}
+        <div className="consent-section">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
+                <Phone size={16} color="#64748b" />
+                <h4 style={{ marginBottom: 0 }}>Emergency Contact Information</h4>
+            </div>
+
+            <div className="emergency-card">
+                <div className="emergency-avatar">RS</div>
+                <div className="emergency-info">
+                    <strong>Mathew Fox</strong>
+                    <span className="relation">Father • Primary Contact</span>
+                    <span className="phone">+1 (555) 893-2214</span>
+                </div>
+            </div>
+
+            <div className="emergency-card secondary">
+                <div className="emergency-avatar" style={{ background: 'linear-gradient(135deg, #cbd5e1, #94a3b8)' }}>AS</div>
+                <div className="emergency-info">
+                    <strong>Lily Fox</strong>
+                    <span className="relation">Mother • Secondary Contact</span>
+                    <span className="phone">+1 (555) 893-2214</span>
+                </div>
+            </div>
+
+            <button className="btn-disabled" disabled>
+                Request Update
+            </button>
+        </div>
+
+        {/* AUTHORIZED CAREGIVER INFO */}
+        <div className="consent-section">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
+                <Users size={16} color="#64748b" />
+                <h4 style={{ marginBottom: 0 }}>Authorized Caregiver Information</h4>
+            </div>
+
+            <ul className="info-list">
+                <li>Authorized caregivers may receive updates related to abnormal pain patterns</li>
+                <li>Information shared is limited to care-related alerts</li>
+                <li>Access is provided as per hospital policy</li>
+            </ul>
+
+            <p className="helper-text">
+                Caregiver access is managed by the hospital and clinical staff.
+            </p>
+        </div>
+
+        {/* MONITORING SCOPE & LIMITATIONS */}
+        <div className="consent-section warning">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.5rem' }}>
+                <AlertTriangle size={16} color="#b45309" />
+                <h4 style={{ marginBottom: 0, color: '#92400e' }}>Monitoring Scope & Limitations</h4>
+            </div>
+
+            <ul className="info-list">
+                <li>PainSense is a decision-support system, not a diagnostic tool</li>
+                <li>It does not diagnose medical conditions autonomously</li>
+                <li>Final clinical decisions are always made by healthcare professionals</li>
+                <li>Monitoring is session-based, not continuous by default</li>
+            </ul>
+
+            <p className="important-note">
+                PainSense supports clinicians by providing additional insights, not medical decisions.
+            </p>
+        </div>
+
+        {/* CONSENT HISTORY */}
+        <div className="consent-section">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
+                <Clock size={16} color="#64748b" />
+                <h4 style={{ marginBottom: 0 }}>Consent History</h4>
+            </div>
+
+            <ul className="history-list">
+                <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <CheckCircle2 size={16} color="#16a34a" />
+                    <span>
+                        <strong>02 Feb 2026</strong> — Pain monitoring consent — <span className="status-active">Active</span>
+                    </span>
+                </li>
+            </ul>
+
+            <p className="helper-text subtle">
+                Displayed for demonstration purposes only.
+            </p>
+        </div>
+
+        {/* PATIENT RIGHTS */}
+        <div className="consent-section">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
+                <FileText size={16} color="#64748b" />
+                <h4 style={{ marginBottom: 0 }}>Patient Rights & Choices</h4>
+            </div>
+
+            <ul className="info-list">
+                <li>You may request to pause or stop monitoring at any time</li>
+                <li>You can ask questions about how your data is used</li>
+                <li>You may request changes to consent through hospital staff</li>
+            </ul>
+
+            <p className="helper-text">
+                For any concerns, please contact the healthcare team.
+            </p>
+        </div>
+
+        {/* DISCLAIMER */}
+        <p className="ethics-note">
+            This section is part of a prototype developed for demonstration purposes and does not represent a legally binding consent document.
+        </p>
+    </div>
+);
+
+
+const ProfileView = () => (
+    <div className="portal-card profile-card premium">
+        <div className="profile-top">
+            <div className="profile-photo icon">
+                <User size={42} />
+            </div>
+
+            <div className="profile-main">
+                <h3>Robert Fox</h3>
+                <span className="profile-id">Patient ID • MRN 8829-11</span>
+
+                <div className="profile-badges">
+                    <span className="badge soft-blue">Male</span>
+                    <span className="badge soft-red">Blood O+</span>
+                    <span className="badge soft-yellow">Moderate Risk</span>
+                </div>
+            </div>
+        </div>
+
+        <div className="profile-sections">
+            <div className="profile-section">
+                <h4>Personal Information</h4>
+                <div className="details-grid">
+                    <div>
+                        <label>Date of Birth</label>
+                        <span>Dec 12, 1958 (67 years)</span>
+                    </div>
+                    <div>
+                        <label>Contact</label>
+                        <span>+1 (555) 893-2214</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="profile-section">
+                <h4>Address</h4>
+                <p className="address-box">
+                    4517 Washington Ave<br />
+                    Manchester, KY, United States
+                </p>
+            </div>
+
+            <div className="profile-section">
+                <h4>Medical Summary</h4>
+                <div className="details-grid">
+                    <div>
+                        <label>Primary Condition</label>
+                        <span>Post-operative Recovery</span>
+                    </div>
+                    <div>
+                        <label>Allergies</label>
+                        <span className="danger-text">Penicillin</span>
+                    </div>
+                    <div>
+                        <label>Physician</label>
+                        <span>Dr. Emily Chen</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 );
 
-const ProfileView = () => (
-    <div className="portal-card">
-        <h3>Patient Profile</h3>
-        <div className="profile-grid">
-            <div className="profile-item">
-                <label>Full Name</label>
-                <div>Robert Fox</div>
-            </div>
-            <div className="profile-item">
-                <label>Date of Birth</label>
-                <div>Dec 12, 1958 (67y)</div>
-            </div>
-            <div className="profile-item">
-                <label>MRN</label>
-                <div>8829-11</div>
-            </div>
-            <div className="profile-item">
-                <label>Blood Type</label>
-                <div>O+</div>
-            </div>
-            <div className="profile-item">
-                <label>Address</label>
-                <div>4517 Washington Ave, Manchester, KY</div>
-            </div>
-        </div>
-    </div>
-);
 
 const LiveMonitorView = () => {
     const webcamRef = useRef(null);

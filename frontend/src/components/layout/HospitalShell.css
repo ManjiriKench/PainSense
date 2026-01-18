@@ -29,6 +29,7 @@
     font-size: 1.25rem;
     margin-left: var(--space-sm);
     letter-spacing: -0.02em;
+    color: white;
 }
 
 .sidebar-nav {
