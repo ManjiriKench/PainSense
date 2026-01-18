@@ -1,7 +1,7 @@
 :root {
     --primary: #0f172a;
-    --primary-hover: #1e293b;
-    --accent: #0ea5e9;
+    --primary-hover: rgb(0, 99, 99);
+    --accent: teal;
     --bg-color: #f8fafc;
     --text-main: #0f172a;
     --text-muted: #64748b;
@@ -178,11 +178,11 @@
 
 .role-btn:hover {
     background: rgba(255, 255, 255, 0.8);
-    color: var(--text-main);
+    color: var(--accent);
 }
 
 .role-btn.active {
-    background: var(--primary);
+    background: var(--accent);
     color: white;
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
     transform: scale(1.02);
@@ -227,7 +227,7 @@
     width: 100%;
     margin-top: 1.25rem;
     padding: 1rem;
-    background-color: var(--primary);
+    background-color: var(--accent);
     color: white;
     border: none;
     border-radius: 12px;

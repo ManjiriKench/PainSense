@@ -28,10 +28,12 @@ const SidebarItem = ({ to, icon: Icon, label, isAction }) => (
 export default function HospitalShell() {
     const location = useLocation();
     const role = localStorage.getItem('role'); // 'nurse' | 'doctor'
+
     if (!role) {
         window.location.href = '/login';
         return null;
     }
+
     const getPageTitle = () => {
         if (location.pathname.startsWith('/app/doctor'))
             return 'Doctor Dashboard – PainSense';
@@ -52,6 +54,7 @@ export default function HospitalShell() {
 
         return 'System Overview';
     };
+
     return (
         <div className="app-shell">
             {/* SIDEBAR */}
@@ -66,7 +69,7 @@ export default function HospitalShell() {
                 <nav className="sidebar-nav">
                     {/* NURSE NAV */}
                     {role === 'nurse' && (
-                        <div className="nav-group">
+                        <div className="nav-group fade-in-up delay-1">
                             <label>WARD UNIT A</label>
                             <SidebarItem to="/app/nurse" icon={LayoutGrid} label="Ward Dashboard" />
                             <SidebarItem to="/app/medications" icon={Pill} label="Medications" />
@@ -76,14 +79,14 @@ export default function HospitalShell() {
 
                     {/* DOCTOR NAV */}
                     {role === 'doctor' && (
-                        <div className="nav-group">
+                        <div className="nav-group fade-in-up delay-1">
                             <label>DOCTOR</label>
                             <SidebarItem to="/app/doctor" icon={Activity} label="Doctor Dashboard" />
                         </div>
                     )}
 
                     {/* ACCOUNT */}
-                    <div className="nav-group" style={{ marginTop: 'auto' }}>
+                    <div className="nav-group fade-in-up delay-2" style={{ marginTop: 'auto' }}>
                         <label>ACCOUNT</label>
                         <SidebarItem to="/app/profile" icon={User} label="Profile" />
                         <NavLink
@@ -99,7 +102,7 @@ export default function HospitalShell() {
                     </div>
                 </nav>
 
-                <div className="sidebar-footer">
+                <div className="sidebar-footer fade-in-up delay-3">
                     <div className="status-indicator online"></div>
                     <span>System Online: v0.1.0-alpha</span>
                 </div>

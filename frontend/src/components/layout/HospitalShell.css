@@ -1,9 +1,96 @@
+:root {
+    --sidebar-width: 260px;
+    --header-height: 64px;
+    --color-primary: #0f766e;
+    --color-primary-dark: #115e59;
+    --color-primary-light: #2dd4bf;
+    --color-white: #ffffff;
+    --color-neutral: #f1f5f9;
+    --color-text-main: #0f172a;
+    --color-text-muted: #64748b;
+    --color-border: #e2e8f0;
+    --color-success: #22c55e;
+    --color-danger: #ef4444;
+
+    --space-sm: 0.5rem;
+    --space-md: 0.75rem;
+    --space-lg: 1.5rem;
+
+    /* Premium Animation Curves */
+    --ease-smooth: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.5s var(--ease-smooth) backwards;
+}
+
+.delay-1 {
+    animation-delay: 0.1s;
+}
+
+.delay-2 {
+    animation-delay: 0.2s;
+}
+
+.delay-3 {
+    animation-delay: 0.3s;
+}
+
+/* App Shell */
 .app-shell {
     display: flex;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
     background-color: var(--color-neutral);
+    animation: fadeIn 0.4s ease-out;
 }
 
 /* Sidebar */
@@ -14,6 +101,10 @@
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    z-index: 20;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.05);
+    /* Added subtle depth */
+    animation: slideInLeft 0.5s var(--ease-smooth);
 }
 
 .sidebar-header {
@@ -47,6 +138,7 @@
     font-weight: 600;
     padding: var(--space-sm) var(--space-lg);
     margin-top: var(--space-md);
+    letter-spacing: 0.05em;
 }
 
 .nav-group:first-child label {
@@ -59,28 +151,33 @@
     padding: var(--space-sm) var(--space-lg);
     color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
-    transition: background 0.2s, color 0.2s;
+    transition: all 0.2s var(--ease-smooth);
     font-size: 0.95rem;
+    border-left: 4px solid transparent;
 }
 
 .sidebar-item:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.08);
     color: var(--color-white);
+    padding-left: calc(var(--space-lg) + 4px);
+    /* Subtle shift right */
 }
 
 .sidebar-action:hover {
-    color: var(--color-danger) !important;
+    color: #fca5a5 !important;
+    /* Soft red for logout hover */
+    background-color: rgba(239, 68, 68, 0.1);
 }
 
 .sidebar-item.active {
-    background-color: var(--color-primary);
-    /* Lighter blue for active state */
+    background-color: rgba(255, 255, 255, 0.1);
     color: var(--color-white);
     border-left: 4px solid var(--color-primary-light);
 }
 
 .sidebar-item span {
     margin-left: var(--space-md);
+    font-weight: 500;
 }
 
 .sidebar-footer {
@@ -98,6 +195,8 @@
     height: 8px;
     border-radius: 50%;
     background-color: var(--color-success);
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+    /* Glow */
 }
 
 /* Main Wrapper */
@@ -117,6 +216,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 var(--space-lg);
+    animation: slideInDown 0.5s var(--ease-smooth) 0.1s backwards;
 }
 
 .header-left {
@@ -132,6 +232,12 @@
     padding: 0;
     display: flex;
     align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.menu-btn:hover {
+    transform: scale(1.1);
 }
 
 .page-title {
@@ -149,8 +255,9 @@
 .time-display {
     font-size: 0.9rem;
     color: var(--color-text-muted);
-    font-family: monospace;
-    /* Digital clock look */
+    font-family: 'Inter', monospace;
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
 }
 
 .icon-btn {
@@ -159,6 +266,11 @@
     color: var(--color-text-muted);
     cursor: pointer;
     position: relative;
+    transition: color 0.2s;
+}
+
+.icon-btn:hover {
+    color: var(--color-primary);
 }
 
 .user-profile {
@@ -166,7 +278,7 @@
     align-items: center;
     gap: var(--space-sm);
     color: var(--color-primary-dark);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.9rem;
     padding-left: var(--space-md);
     border-left: 1px solid var(--color-border);
@@ -178,4 +290,5 @@
     overflow-y: auto;
     padding: var(--space-lg);
     background-color: var(--color-neutral);
+    animation: fadeIn 0.6s ease-out 0.2s backwards;
 }

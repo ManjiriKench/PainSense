@@ -70,7 +70,7 @@
 .logo-box {
     width: 42px;
     height: 42px;
-    background: var(--primary);
+    background: teal;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -144,7 +144,7 @@
 }
 
 .nav-btn-login {
-    background-color: var(--primary);
+    background-color: var(--accent);
     color: white;
     padding: 0.75rem 1.75rem;
     border-radius: 12px;
@@ -156,17 +156,13 @@
 }
 
 .nav-btn-login:hover {
-    background-color: var(--primary-dark);
+    background-color: var(--primary-hover);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(15, 118, 110, 0.3);
 }
 
-/* =========================
-   PREMIUM FOOTER (FIXED)
-========================= */
-
 .premium-footer {
-    background: linear-gradient(180deg, #0b1224, #0f172a);
+    background: linear-gradient(180deg, rgb(0, 86, 86), rgb(0, 119, 119));
     color: rgba(255, 255, 255, 0.9);
     padding: 2rem 0 1.5rem;
     margin-top: 2.5rem;
@@ -184,8 +180,6 @@
     gap: 1.5rem;
 }
 
-
-/* TOP ROW */
 .footer-top {
     display: flex;
     justify-content: space-between;
