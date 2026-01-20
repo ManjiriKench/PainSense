@@ -94,10 +94,10 @@ export default function PatientPortal() {
             {/* Sidebar */}
             <aside className={`portal-sidebar ${sidebarOpen ? 'open' : 'closed'}`}>
                 <div className="sidebar-top">
-                    <div className="p-brand">
+                    <Link to="/" className="p-brand">
                         <Activity className="brand-icon" />
                         {sidebarOpen && <span>PainSense</span>}
-                    </div>
+                    </Link>
                     <button className="toggle-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
                         {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
                     </button>

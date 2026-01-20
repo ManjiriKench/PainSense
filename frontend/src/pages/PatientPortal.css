@@ -83,6 +83,7 @@ body {
     font-size: 1.2rem;
     color: var(--color-primary);
     white-space: nowrap;
+    text-decoration: none;
 }
 
 .toggle-btn {
