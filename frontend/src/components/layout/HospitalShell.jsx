@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, NavLink, useLocation } from 'react-router-dom';
+import { Outlet, NavLink, useLocation, Link } from 'react-router-dom';
 import {
     LayoutGrid,
     Activity,
@@ -59,12 +59,12 @@ export default function HospitalShell() {
         <div className="app-shell">
             {/* SIDEBAR */}
             <aside className="sidebar">
-                <div className="sidebar-header">
+                <Link to="/" className="sidebar-header">
                     <div className="logo-icon">
                         <Activity color="white" />
                     </div>
                     <div className="logo-text">PainSense</div>
-                </div>
+                </Link>
 
                 <nav className="sidebar-nav">
                     {/* NURSE NAV */}
