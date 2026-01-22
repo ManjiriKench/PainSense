@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AlertTriangle, TrendingUp, TrendingDown, Minus, Activity, Bell } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import './DoctorDashboard.css';
 
 const patients = [
@@ -17,7 +18,7 @@ export default function DoctorDashboard() {
             <header className="doctor-header">
                 <div>
                     <h3>Doctor Dashboard</h3>
-                    <span className="doctor-info">PainSense v2.1 • Connected</span>
+                    <span className="doctor-info"><Link to="/" style={{ color: 'inherit', textDecoration: 'none', fontWeight: 'bold' }}>PainSense</Link> v2.1 • Connected</span>
                 </div>
                 <div className="doctor-meta">
                     <span className="doctor-name">Dr. Amit Verma</span>
