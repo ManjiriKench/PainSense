@@ -23,7 +23,14 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 The API will be available at `http://localhost:8000`.
 Documentation is available at `http://localhost:8000/docs`.
 
-### 3. API Endpoints
+### 3. API Authentication
+Every request to the analysis endpoints must include an API Key in the headers:
+- Header Name: `X-API-Key`
+- Default Key (Local): `painsense_secret_key_2024`
+
+You can change this key by setting the `AI_API_KEY` environment variable.
+
+### 4. API Endpoints
 
 - **POST /analyze/face**: Upload an image file to get facial pain analysis.
 - **POST /analyze/full**: Upload an image + physiological data (form fields) to get a fused pain score.
@@ -69,4 +76,27 @@ This layer provides the interface for external applications (like the Frontend).
 - It accepts raw images (webcam frames) and numerical physiological data.
 - It orchestrates the flow: Image -> MediaPipe -> PAIC Engine -> Fusion Engine <- Physio Data.
 - It returns a comprehensive JSON object containing the final score, component scores, reliability metrics, and explainability text.
+
+## 🚀 Deployment to Google Cloud Run
+
+To deploy this AI backend to Google Cloud, follow these steps:
+
+### 1. Prerequisites
+- Google Cloud CLI installed (`gcloud`).
+- A GCP Project with Billing enabled.
+- Artifact Registry or Container Registry API enabled.
+
+### 2. Deployment Commands
+From the `ai` directory:
+
+```bash
+# Set your project ID
+gcloud config set project [YOUR_PROJECT_ID]
+
+# Deploy to Cloud Run
+gcloud run deploy painsense-ai --source . --region us-central1 --allow-unauthenticated \
+  --set-env-vars AI_API_KEY=YOUR_SECURE_API_KEY_HERE
+```
+
+Once deployed, Google will provide a URL like `https://painsense-ai-xyz.a.run.app`. Your friend can then use this URL and the API Key to connect the frontend and backend.
 

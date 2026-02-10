@@ -12,7 +12,6 @@ class PAICFacialEngine:
         return np.linalg.norm(np.array(p1) - np.array(p2))
 
     # ---------- PAIC Facial Feature Scores ----------
-    # ---------- PAIC Facial Feature Scores ----------
     def eye_tightening(self, landmarks):
         # Eye Aspect Ratio (both eyes)
         # Relaxed threshold to make it easier to trigger

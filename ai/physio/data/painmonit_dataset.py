@@ -1,4 +1,5 @@
 import os
+import pickle
 import numpy as np
 import pandas as pd
 import torch
@@ -33,8 +34,18 @@ class PainMonitDataset(Dataset):
             if f.endswith(".csv")
         ]
 
+        # Load all 52 subjects for full training
+        # if len(csv_files) > 10:
+        #     print(f"[INFO] Limiting training data to 10 subjects for rapid convergence (out of {len(csv_files)})")
+        #     csv_files = csv_files[:10]
+
+        print(f"[INFO] Loading all {len(csv_files)} subject files for comprehensive training...")
+
         for file_path in csv_files:
-            self._process_subject(file_path)
+            try:
+                self._process_subject(file_path)
+            except Exception as e:
+                print(f"[WARNING] Skipping {file_path}: {e}")
 
         print(f"[INFO] Total windows created: {len(self.samples)}")
 
@@ -93,8 +104,22 @@ class PainMonitDataset(Dataset):
             if valid_labels.sum() < 0.2 * len(window_labels):
                 continue
 
+            # -----------------------------
+            # Class Balancing (CRITICAL)
+            # -----------------------------
+            # The dataset has too many "0" or low pain samples.
+            # We must aggressively skip them to let the model see high pain.
+            
+            # Label smoothing / cleaning
             label = np.nanmean(window_labels)
             label = np.clip(label, 0.0, 100.0)
+            
+            # Undersample Logic:
+            # If pain < 10 (Low), keep only 5% of samples
+            # If pain >= 10 (Med/High), keep 100% of samples
+            if label < 10:
+                if np.random.rand() > 0.05:
+                    continue
 
             self.samples.append((window, label))
 
