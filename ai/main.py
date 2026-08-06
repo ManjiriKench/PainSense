@@ -40,17 +40,30 @@ app = FastAPI(title="PainSense AI Backend", description="AI Backend for Multimod
 API_KEY_NAME = "X-API-Key"
 api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=False)
 
-# Get API key from environment variable or use a default for dev
-# ⚠️ PRODUCTION WARNING: Set AI_API_KEY environment variable to a strong, unique key
-# The default key below is only for local development
-AI_API_KEY = os.getenv("AI_API_KEY", "painsense_secret_key_2024")
+# API Key Security
+API_KEY_NAME = "X-API-Key"
+api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=False)
 
-async def get_api_key(header_key: str = Security(api_key_header)):
-    if header_key == AI_API_KEY:
+# Get API keys from environment variables or use defaults
+# ⚠️ PRODUCTION WARNING: Set these environment variables to strong, unique keys
+FACIAL_API_KEY = os.getenv("FACIAL_API_KEY", "painsense_facial_key_2024")
+PHYSIO_API_KEY = os.getenv("PHYSIO_API_KEY", "painsense_physio_key_2024")
+
+async def get_facial_api_key(header_key: str = Security(api_key_header)):
+    if header_key == FACIAL_API_KEY:
+        return header_key
+    else:
+        # Fallback to allow master key if set (optional)
+        raise HTTPException(
+            status_code=403, detail="Invalid Facial API Key"
+        )
+
+async def get_physio_api_key(header_key: str = Security(api_key_header)):
+    if header_key == PHYSIO_API_KEY:
         return header_key
     else:
         raise HTTPException(
-            status_code=403, detail="Could not validate API Key"
+            status_code=403, detail="Invalid Physio API Key"
         )
 
 # Enable CORS
@@ -76,7 +89,12 @@ face_mesh = mp.solutions.face_mesh.FaceMesh(
 
 # Initialize physiological signal system
 PHYSIO_DATA_PATH = os.path.join(current_dir, "physio", "data", "PMHDB", "raw-data")
-PHYSIO_MODEL_PATH = os.path.join(os.path.dirname(current_dir), "physio_cnn_gru.pth")
+
+# Look for model in current directory first (for container/cloud run), then parent (for local dev)
+if os.path.exists(os.path.join(current_dir, "physio_cnn_gru.pth")):
+    PHYSIO_MODEL_PATH = os.path.join(current_dir, "physio_cnn_gru.pth")
+else:
+    PHYSIO_MODEL_PATH = os.path.join(os.path.dirname(current_dir), "physio_cnn_gru.pth")
 
 # Check if paths exist
 if os.path.exists(PHYSIO_DATA_PATH):
@@ -86,7 +104,7 @@ else:
     signal_generator = None
     print(f"[WARNING] Physio data path not found: {PHYSIO_DATA_PATH}")
 
-pain_predictor = PhysioPainPredictor(PHYSIO_MODEL_PATH if os.path.exists(PHYSIO_MODEL_PATH) else None)
+pain_predictor = PhysioPainPredictor(PHYSIO_MODEL_PATH)
 print(f"[INFO] Pain predictor initialized (model loaded: {pain_predictor.model_loaded})")
 
 # Initialize data logger
@@ -142,9 +160,10 @@ def read_root():
     return {"status": "active", "message": "PainSense AI Backend is running"}
 
 @app.post("/analyze/face")
-async def analyze_face(file: UploadFile = File(...), api_key: str = Depends(get_api_key)):
+async def analyze_face(file: UploadFile = File(...), api_key: str = Depends(get_facial_api_key)):
     """
     Upload an image to get facial pain analysis.
+    Requires FACIAL_API_KEY.
     """
     try:
         contents = await file.read()
@@ -187,10 +206,19 @@ async def analyze_face(file: UploadFile = File(...), api_key: str = Depends(get_
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+async def get_any_api_key(header_key: str = Security(api_key_header)):
+    if header_key == FACIAL_API_KEY or header_key == PHYSIO_API_KEY:
+        return header_key
+    else:
+        raise HTTPException(
+            status_code=403, detail="Invalid API Key"
+        )
+
 @app.post("/analyze/fusion")
-async def analyze_fusion(data: FusionInput, api_key: str = Depends(get_api_key)):
+async def analyze_fusion(data: FusionInput, api_key: str = Depends(get_any_api_key)):
     """
     Fuse existing facial data with physio data.
+    Accepts either FACIAL_API_KEY or PHYSIO_API_KEY.
     """
     try:
         # Convert Pydantic model to dicts expected by the engine
@@ -208,10 +236,11 @@ async def analyze_full(
     physio_pain: float = Form(...),
     physio_quality: float = Form(1.0),
     physio_artifact: bool = Form(False),
-    api_key: str = Depends(get_api_key)
+    api_key: str = Depends(get_any_api_key)
 ):
     """
     Full analysis: Upload image + provide physio stats in one go.
+    Accepts either FACIAL_API_KEY or PHYSIO_API_KEY.
     """
     try:
         # 1. Face Analysis
@@ -270,9 +299,10 @@ async def analyze_full(
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/physio/generate")
-async def generate_physio_signals(request: SignalGenerationRequest, api_key: str = Depends(get_api_key)):
+async def generate_physio_signals(request: SignalGenerationRequest, api_key: str = Depends(get_physio_api_key)):
     """
     Generate simulated physiological signals from training data.
+    Requires PHYSIO_API_KEY.
     
     This endpoint samples from the PMHDB dataset to generate realistic signal windows.
     """
@@ -322,9 +352,10 @@ async def generate_physio_signals(request: SignalGenerationRequest, api_key: str
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/physio/predict")
-async def predict_from_signals(signals: Dict[str, Any], api_key: str = Depends(get_api_key)):
+async def predict_from_signals(signals: Dict[str, Any], api_key: str = Depends(get_physio_api_key)):
     """
     Predict pain score from physiological signals.
+    Requires PHYSIO_API_KEY.
     
     Expected input format:
     {
@@ -367,9 +398,10 @@ async def predict_from_signals(signals: Dict[str, Any], api_key: str = Depends(g
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/physio/simulate")
-async def simulate_physio_pain(request: SignalGenerationRequest, api_key: str = Depends(get_api_key)):
+async def simulate_physio_pain(request: SignalGenerationRequest, api_key: str = Depends(get_physio_api_key)):
     """
     Complete simulation: Generate signals and predict pain score.
+    Requires PHYSIO_API_KEY.
     
     This is the main endpoint for the simulation system. It:
     1. Generates realistic physiological signals from training data
@@ -420,9 +452,10 @@ async def simulate_physio_pain(request: SignalGenerationRequest, api_key: str = 
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/physio/stats")
-async def get_physio_stats(api_key: str = Depends(get_api_key)):
+async def get_physio_stats(api_key: str = Depends(get_physio_api_key)):
     """
     Get statistics about the loaded physiological signal dataset.
+    Requires PHYSIO_API_KEY.
     """
     try:
         if signal_generator is None:
@@ -445,9 +478,10 @@ async def get_physio_stats(api_key: str = Depends(get_api_key)):
 # ============================================================================
 
 @app.post("/backend/log-pain-score")
-async def log_pain_score(data: PatientMonitoringRequest, api_key: str = Depends(get_api_key)):
+async def log_pain_score(data: PatientMonitoringRequest, api_key: str = Depends(get_any_api_key)):
     """
     Log a pain score for a patient to both CSV and database.
+    Accepts either FACIAL_API_KEY or PHYSIO_API_KEY.
     
     This endpoint should be called every 5 seconds (or at desired interval)
     with the patient's pain assessment data.
